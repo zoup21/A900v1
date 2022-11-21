@@ -1,0 +1,34 @@
+img{
+    display: block ;
+    margin-left: auto;
+    margin-right: auto;
+    width: 25%;
+    
+}
+
+
+li{
+    display: inline-block;
+    padding-right: 10%;
+    font-size: large;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+
+
+.red-menu{
+    background-color: red;
+    color: white
+}
+
+
+.yellow-menu{
+    background-color: yellow;
+    color: black
+}
+
+.black{
+    background-color: black;
+    color: aliceblue;
+}

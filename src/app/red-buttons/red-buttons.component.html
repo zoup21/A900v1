@@ -1,0 +1,181 @@
+
+ <h3>Autopilot MMEL(Master Minimum Equipment List)</h3>
+<div class="row">
+    <div class="col-md-5">
+    <ul>
+        <li><button (click)="IMU()">IMU</button> (Inertial measurement unit failure)</li>
+        <li><button (click)="INT()">INT</button> (Internal autopilot failure. Autopilot has detected one/ multiple failures)</li>
+        <li><button (click)="GPS()">GPS</button> (No accurate GPS fix. GPS not used for navigation)</li>
+        <li><button (click)="volt()">UAV VOLT CRITICAL</button> (System voltage critical)</li>
+        <li><button (click)="pcFail()">PC FAILURE</button> (NOT AN ALARM. PC or Visionair failure)</li>
+        <li><button (click)="lcl()">LONG COMM LOSS</button>(LCL)</li>
+    </ul><br><br><br>
+    <h3>PCM PRO MMEL(Master Minimum Equipment List)</h3>
+    <ul>
+        <li><button (click)="Servo()">SERVO FAIL</button> OR <button>SERVO HIGH CURRENT</button> (One or more servos has abnormal power consumption, too low or too high)</li>
+        <li><button (click)="Ecu()">ECU COMM FAIL</button></li>
+        <li><button (click)="Electr()">ELECTRICAL SYSTEM</button></li>
+    </ul><br><br><br>
+    <h3>Engine Control Unit MMEL(Master Minimum Equipment List)</h3>
+    <ul>
+        <li><button (click)="Injector()">INJECTOR</button>(Injector Failure)</li>
+        <li><button (click)="Ignition()">IGNITION 1&2</button>(Ignition powered off)</li>
+        <li><button (click)="Throttle()">THROTTLE SERVO</button> (Throttle Servo Fail)</li>
+        <li><button (click)="Engine()">ENGINE SPEED 1&2</button>(Crankshaft Position Sensor fail)</li>
+        <li><button (click)="Tps()">TPS</button>(Throttle Position Sign fail)</li>
+        <li><button (click)="Fuel()">FUEL STATUS</button>(Too low pressure on fuel pump)</li>
+    </ul>
+    </div>
+    <br><br>
+    <div class="col-md-7">
+        <div class="show">
+        <ul *ngIf="imu===true">
+            <p class="alarm">IMU</p><p>(Inertial measurement unit failure)</p>
+                <li>CHECK condition of shock-absorbing mounts</li>
+                <li>REPLACE shock-absorbing mounts if necessary</li>
+                <li>CHECK ALPHA 900 airframe, blade tracking, or AP wires</li>
+                <ul>
+                    <li>IMU Alarm OFF <p class="go">GO</p></li>
+                    <li>IMU Alarm still ON <p class="noGo">NO GO</p></li>
+                </ul>
+        </ul>
+        <ul *ngIf="int===true">
+            <p class="alarm">INT</p><p>(Internal autopilot failure. Autopilot has detected one/ multiple failures)</p>
+            <li>CHECK all connections</li>
+            <li>CHECK power supply</li>
+            <ul>
+                <li>INT Alarm OFF <p class='go'>GO</p></li>
+                <li>INT Alarm still ON <p class="noGo">NO GO</p></li>
+            </ul>
+        </ul>
+        <ul *ngIf="gps===true">
+            <p class="alarm">GPS</p><p>(No accurate GPS fix. GPS not used for navigation)</p>
+            <li>CHECK GPS antenna connection</li>
+            <li>CHECK GPS antenna has clear view of sky</li>
+            <li>WAIT up to 15 minutes for GPS to acquire fix</li>
+            <ul>
+                <li>GPS Alarm OFF <p class="go">GO</p></li>
+                <li>GPS Alarm still ON <p class="noGo">NO GO</p></li>
+            </ul>
+        </ul>
+        <ul *ngIf="uavVolt===true">
+            <p class="alarm">UAV VOLT CRITICAL</p><p>(System voltage critical)</p>
+            <li>If RPMS are low this alarm will be triggered</li>
+            <li>Back up battery reading must be between 14-16.5 V</li>
+            <ul>
+                <li>V1 Alarm OFF when RPMS are at flying level <p class="go">GO</p></li>
+                <li>V1 Alarm ON when RPMS are at flying level <p class="noGo">NO GO</p></li>
+            </ul>
+        </ul>
+        <ul *ngIf="pcF===true">
+            <p class="alarm">PC FAILURE</p><p>(NOT AN ALARM. PC or Visionair failure)</p>
+            <li>RESTART Laptop/GCase Duo</li>
+            <li>LAUNCH Visionair</li>
+            <ul>
+                <li>Laptop/GCase Duo and VISIONAIR functioning <p class="go">GO</p></li>
+            </ul>
+        </ul>
+        <ul *ngIf="vlcl===true">
+            <p class="alarm">LONG COMM LOSS</p><p>(LCL)</p>
+            <li>CHECK UAV / GTRACK antenna connections</li>
+            <li>CHECK UAV / GTRACK power supply</li>
+            <li>CHECK GTRACK antenna correct aiming direction</li>
+            <li>Check Total Bandwidth used (lower video quality if needed)</li>
+                <ul>
+                    <li>LONG COMM LOSS Alarm OFF <p class="go">GO</p></li>
+                    <li>LONG COMM LOSS Alarm still ON <p class="noGo">NO GO</p></li>
+                </ul>
+        </ul>
+        <ul *ngIf="vServ ===true">
+            <p class="alarm">SERVO FAIL OR SERVO HIGH CURRENT</p>
+            <li>Check Servo connection</li>
+            <li>Check Servo mechanical position and link ensure it is not reaching any mechanical 
+                limit.</li>
+            <li>Check absence or jittering or erratic behavior on the servo.</li>
+            <ul>
+                <li>ECU COMM FAIL OFF <p class="go">GO</p></li>
+                <li>ECU COMM FAIL OFF <p class="noGo">NO GO</p></li>
+            </ul>
+        </ul>
+        <ul *ngIf="vEcu === true">
+            <p class="alarm">ECU COMM FAIL</p>
+            <li>Check cable and connectors</li>
+            <li>Power on Visionair while the UAV is powered and check correct gauges reading.</li>
+            <ul>
+                <li>ECU COMM FAIL OFF <p class="go">GO</p></li>
+                <li>ECU COMM FAIL ON <p class="noGo">NO GO</p></li>
+            </ul>
+        </ul>
+        <ul *ngIf="vElect ===true">
+            <p class="alarm">ELECTRICAL SYSTEM</p>
+            <li>Visually check that the PCM PRO is in good condition and that nothing has been 
+                damaged.</li>
+            <li>Power off and Power on again the system.</li>
+            <ul>
+                <li>ELECTRICAL SYSTEM OFF <p class="go">GO</p></li>
+                <li>ELECTRICAL SYSTEM ON <p class="noGo">NO GO</p></li>
+            </ul>
+        </ul>
+        <ul *ngIf="vInject ===true">
+            <p class="alarm">INJECTOR</p><p>(Injector Failure)</p>
+            <li>Check connections between injector body and the ECU module</li>
+            <li>Check there is no leakage in the fuel lines</li>
+            <li>Check correct actuation of fuel pumps (Pumps sound and demand fuel when 
+                activated)</li>
+            <ul>
+                <li>INJECTOR ALARM OFF <p class="go">GO</p></li>
+                <li>INJECTOR ALARM ON <p class="noGo">NO GO</p></li>
+            </ul>
+        </ul>
+        <ul *ngIf="vIgnition ===true">
+            <p class="alarm">IGNITION 1&2</p><p>(Ignition powered off)</p>
+            <li>Check connections between both ignition modules and ECU module</li>
+            <li>Check connections between both ignition modules and spark plugs</li>
+            <ul>
+                <li>IGNITION ALARM OFF <p class="go">GO</p></li>
+                <li>IGNITION ALARM ON <p class="noGo">NO GO</p></li>
+            </ul>
+        </ul>
+        <ul *ngIf="vThrottle===true">
+            <p class="alarm"> THROTTLE SERVO</p><p>(Throttle Servo Fail)</p>
+            <li>Check connections between ECU and throttle servo</li>
+            <ul>
+                <li>THROTTLE SERVO ALARM OFF <p class="go">GO</p></li>
+                <li>THROTTLE SERVO ALARM ON <p class="noGo">NO GO</p></li>
+            </ul>
+        </ul>
+        <ul *ngIf="vEngine===true">
+            <p class="alarm">ENGINE SPEED 1 & 2</p><p>(Crankshaft Position Sensor Fail)</p>
+            <li>Check connection between CPS sensor and ECU is ok</li>
+            <li>Check sensor is correctly oriented facing the crankshaft</li>
+            <li>Check Crankshaft magnets are in their position</li>
+            <ul>
+                <li>ENGINE SPEED 1 and 2 ALARMS OFF <p class="go">GO</p></li>
+                <li>ENGINE SPEED 1 or 2 ALARM ON <p class="noGo">NO GO</p> </li>
+            </ul>
+        </ul>
+        <ul *ngIf="vTps===true">
+            <p class="alarm">TPS</p><p>(Throttle Position Signal fail)</p>
+            <li>Check connection between Throttle servo and ECU</li>
+            <li>Check cable is in good conditions</li>
+            <ul>
+                <li>TPS ALARM OFF <p class="go">GO</p></li>
+                <li>TPS ALARM ON <p class="noGo">NO GO</p></li>
+            </ul>
+        </ul>
+        <ul *ngIf="vFuel===true">
+            <p class="alarm">FUEL STATUS</p>
+            <li> Check there is no leakage in the fuel line pipes</li>
+            <li>Check there are no bubbles in the fuel line pipes</li>
+            <li>Check fuel lines and filters are correctly coupled</li>
+            <li>Check correct connections between the ECU and the fuel pump system</li>
+            <ul>
+                <li>FUEL PRESSURE FAIL ALARM OFF <p class="go">GO</p></li>
+                <li>FUEL PRESSURE FAIL ALARM ON <p class="noGo">NO GO</p></li>
+            </ul>
+        </ul>
+        </div>
+    </div>
+    
+</div>
+

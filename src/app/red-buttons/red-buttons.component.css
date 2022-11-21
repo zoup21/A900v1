@@ -1,0 +1,29 @@
+
+
+button{
+    background-color: red;
+    color: white;
+    cursor: pointer;
+    
+}
+
+.alarm{
+    color: red
+}
+
+.go{
+    color: white;
+    outline:auto;
+    max-width: 25px;
+    background-color: green;
+}
+
+.noGo{
+    color: white;
+    outline:auto;
+    max-width: 50px;
+    background-color:red;
+}
+h3{
+    margin-left: 20px;
+}
